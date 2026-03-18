@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Storeify Watches</title>
+    <meta name="description" content="Admin dashboard for Storeify Watches">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌚</text></svg>">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <img src="../logo2.jpeg" alt="Storeify Logo" class="logo-icon" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; background: transparent; box-shadow: none;">
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
+            <a href="#products" class="nav-item" data-section="products">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                </svg>
+                Products
+            </a>
+            <a href="#add-product" class="nav-item" data-section="add-product">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="16"></line>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                Add Product
+            </a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <button id="logout-btn" class="btn btn-outline btn-sm btn-block">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <h1 id="page-title">Dashboard</h1>
+            <div class="header-actions">
+                <a href="../index.html" target="_blank" class="btn btn-outline btn-sm">
+                    View Store
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section active">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon products">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="total-products">-</span>
+                        <span class="stat-label">Total Products</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon categories">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="total-categories">-</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon featured">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="featured-products">-</span>
+                        <span class="stat-label">Featured</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon stock">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M2 12h20"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="low-stock">-</span>
+                        <span class="stat-label">Low Stock</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Distribution -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Category Distribution</h2>
+                </div>
+                <div class="card-body">
+                    <div id="category-distribution" class="category-bars">
+                        <!-- Category bars will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Products -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>Recent Products</h2>
+                    <a href="#products" class="btn btn-sm btn-outline" onclick="showSection('products')">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recent-products-table">
+                                <!-- Products will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products-section" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>All Products</h2>
+                    <div class="header-actions">
+                        <input type="text" id="product-search" placeholder="Search products..." class="search-input">
+                        <button class="btn btn-primary btn-sm" onclick="showSection('add-product')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Add Product
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Featured</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="all-products-table">
+                                <!-- Products will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="products-pagination" class="pagination">
+                        <!-- Pagination will be added here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Product Section -->
+        <section id="add-product-section" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Add New Product</h2>
+                </div>
+                <div class="card-body">
+                    <form id="add-product-form" class="product-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-name">Product Name *</label>
+                                <input type="text" id="product-name" name="product_name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-category">Category *</label>
+                                <select id="product-category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="watches">All Watches</option>
+                                    <option value="mens-watches">Men's Watches</option>
+                                    <option value="female-watches">Female Watches</option>
+                                    <option value="unisex-watches">Unisex Watches</option>
+                                    <option value="sunglasses">Sunglasses</option>
+                                    <option value="couple-accessories">Couple Watches</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="main-price">Main Price (₹) *</label>
+                                <input type="number" id="main-price" name="main_price" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="discount-price">Discount Price (₹)</label>
+                                <input type="number" id="discount-price" name="discount_price" min="0">
+                                <small>Leave empty if no discount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="stock-quantity">Stock Quantity *</label>
+                                <input type="number" id="stock-quantity" name="stock_quantity" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="product-badge">Badge</label>
+                                <select id="product-badge" name="badge">
+                                    <option value="">None</option>
+                                    <option value="New">New</option>
+                                    <option value="Sale">Sale</option>
+                                    <option value="Hot">Hot</option>
+                                    <option value="Bestseller">Bestseller</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="short-description">Short Description *</label>
+                            <textarea id="short-description" name="short_description" rows="3" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="product-colour-picker">Colour Options</label>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                    <input type="color" id="product-colour-picker" value="#000000" style="width: 52px; height: 40px; padding: 0; border: 1px solid #d1d5db; border-radius: 8px;">
+                                    <button type="button" class="btn btn-outline btn-sm" id="add-product-colour-btn">Add Colour</button>
+                                </div>
+                                <div id="product-colour-preview" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+                                <input type="hidden" id="product-colours-hidden" name="colour_options" value="[]">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="box-option">Box Option</label>
+                                <select id="box-option" name="box">
+                                    <option value="without box">Without Box</option>
+                                    <option value="box">With Box</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="box-price">Box Price (₹)</label>
+                            <input type="number" id="box-price" name="box_price" min="0" step="0.01" placeholder="Optional extra for box">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-image">Product Images (up to 5)</label>
+                            <input type="file" id="product-image" name="image" accept="image/*" multiple>
+                            <small>Select up to 5 images. The first image is used as the main image.</small>
+                            <div id="image-preview" class="image-preview"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="featured" name="featured">
+                                <span>Mark as Featured</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add Product
+                            </button>
+                            <button type="reset" class="btn btn-outline">Clear</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Edit Product Section -->
+        <section id="edit-product-section" class="content-section">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Edit Product</h2>
+                </div>
+                <div class="card-body">
+                    <form id="edit-product-form" class="product-form">
+                        <input type="hidden" id="edit-product-id" name="id">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-product-name">Product Name *</label>
+                                <input type="text" id="edit-product-name" name="product_name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-product-category">Category *</label>
+                                <select id="edit-product-category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="watches">All Watches</option>
+                                    <option value="mens-watches">Men's Watches</option>
+                                    <option value="female-watches">Female Watches</option>
+                                    <option value="unisex-watches">Unisex Watches</option>
+                                    <option value="sunglasses">Sunglasses</option>
+                                    <option value="couple-accessories">Couple Watches</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-main-price">Main Price (₹) *</label>
+                                <input type="number" id="edit-main-price" name="main_price" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-discount-price">Discount Price (₹)</label>
+                                <input type="number" id="edit-discount-price" name="discount_price" min="0">
+                                <small>Leave empty if no discount</small>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-stock-quantity">Stock Quantity *</label>
+                                <input type="number" id="edit-stock-quantity" name="stock_quantity" min="0" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-product-badge">Badge</label>
+                                <select id="edit-product-badge" name="badge">
+                                    <option value="">None</option>
+                                    <option value="New">New</option>
+                                    <option value="Sale">Sale</option>
+                                    <option value="Hot">Hot</option>
+                                    <option value="Bestseller">Bestseller</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-short-description">Short Description *</label>
+                            <textarea id="edit-short-description" name="short_description" rows="3" required></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-product-colour-picker">Colour Options</label>
+                                <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
+                                    <input type="color" id="edit-product-colour-picker" value="#000000" style="width: 52px; height: 40px; padding: 0; border: 1px solid #d1d5db; border-radius: 8px;">
+                                    <button type="button" class="btn btn-outline btn-sm" id="edit-product-colour-btn">Add Colour</button>
+                                </div>
+                                <div id="edit-product-colour-preview" style="display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+                                <input type="hidden" id="edit-product-colours-hidden" name="colour_options" value="[]">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="edit-box-option">Box Option</label>
+                                <select id="edit-box-option" name="box">
+                                    <option value="without box">Without Box</option>
+                                    <option value="box">With Box</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-box-price">Box Price (₹)</label>
+                            <input type="number" id="edit-box-price" name="box_price" min="0" step="0.01" placeholder="Optional extra for box">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Current Images</label>
+                            <div id="edit-current-image" class="current-image"></div>
+                            <label for="edit-product-image" class="mt-2">Change Images (up to 5)</label>
+                            <input type="file" id="edit-product-image" name="image" accept="image/*" multiple>
+                            <small>Select up to 5 images. The first image is used as the main image.</small>
+                            <div id="edit-image-preview" class="image-preview"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="edit-featured" name="featured">
+                                <span>Mark as Featured</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                    <polyline points="7 3 7 8 15 8"></polyline>
+                                </svg>
+                                Save Changes
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="showSection('products')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+
+
+<script src="../config/config.js"></script>
+<script src="../js/appwrite.js"></script>
+ <script src="js/admin.js"></script>
+
+</body>
+</html>

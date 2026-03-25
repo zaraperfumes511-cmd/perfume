@@ -28,7 +28,9 @@ function calculateDiscount(mainPrice, discountPrice) {
 // Generate WhatsApp order link
 function generateWhatsAppLink(product, selectedColor = null, boxOption = 'with') {
     const phone = CONFIG.whatsapp.number;
-    const price = product.discount_price || product.main_price;
+    const basePrice = product.discount_price || product.main_price;
+    const boxExtra = Number(product.box_price) > 0 ? Number(product.box_price) : 0;
+    const price = boxOption === 'with' ? (basePrice + boxExtra) : basePrice;
     
     let message = `Hello! I want to order this product from ${CONFIG.storeName}:\n\n`;
     message += `*Product:* ${product.product_name}\n`;

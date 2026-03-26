@@ -1,22 +1,26 @@
 // Admin Dashboard JavaScript
 
-// Check authentication
-document.addEventListener('DOMContentLoaded', () => {
-    const session = localStorage.getItem('adminSession');
-    if (!session) {
+// Check authentication using real Appwrite session.
+// HOW IT WORKS:
+// We call appwriteDB.getCurrentUser() which asks Appwrite: "Is there a valid
+// session cookie in this browser right now?"
+// - If YES → Appwrite returns the user object → We let them into the dashboard.
+// - If NO  → Appwrite throws an error → We redirect to the login page.
+// This CANNOT be bypassed by editing localStorage. The session lives on
+// Appwrite's servers, and the cookie is HttpOnly (invisible to JS).
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const user = await appwriteDB.getCurrentUser();
+        if (!user) {
+            window.location.href = 'index.html';
+            return;
+        }
+        // User is authenticated! Initialize dashboard.
+        initDashboard();
+    } catch (error) {
+        // Session invalid or expired
         window.location.href = 'index.html';
-        return;
     }
-    
-    const sessionData = JSON.parse(session);
-    if (sessionData.expiry < Date.now()) {
-        localStorage.removeItem('adminSession');
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    // Initialize dashboard
-    initDashboard();
 });
 
 // Initialize dashboard
@@ -119,9 +123,13 @@ function showSection(sectionName) {
     });
 }
 
-// Logout
-function logout() {
-    localStorage.removeItem('adminSession');
+// Logout - calls Appwrite to destroy the session on their servers
+async function logout() {
+    try {
+        await appwriteDB.logout(); // Deletes the session cookie via Appwrite API
+    } catch (error) {
+        console.warn('Logout error:', error);
+    }
     if (appwriteDB && appwriteDB.clearProductsCache) {
         appwriteDB.clearProductsCache();
     }

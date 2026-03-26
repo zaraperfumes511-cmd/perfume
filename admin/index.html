@@ -25,27 +25,16 @@
                     <img src="../logo2.jpeg" alt="Storeify Logo" class="logo-icon" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%; background: transparent; box-shadow: none;">
                 </div>
                 <h1>Admin Login</h1>
-                <!-- 
-                    HOW THIS IS SECURE:
-                    Instead of comparing a password stored in a JS file (visible to everyone),
-                    we now send the credentials directly to Appwrite's servers over HTTPS.
-                    Appwrite verifies them. If correct, Appwrite creates a secure,
-                    encrypted Session Cookie in your browser. We never store the password anywhere.
-                -->
-                <p>Sign in with your Appwrite admin account</p>
+                <p>Enter your password to access the dashboard</p>
             </div>
             
             <form id="login-form" class="login-form">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter admin email" required autocomplete="email">
-                </div>
-                <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter admin password" required autocomplete="current-password">
+                    <input type="password" id="password" name="password" placeholder="Enter admin password" required>
                 </div>
                 
-                <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+                <button type="submit" class="btn btn-primary btn-block">
                     <span>Login</span>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -54,7 +43,7 @@
             </form>
             
             <div id="login-error" class="login-error" style="display: none;">
-                Login failed.
+                Incorrect password. Please try again.
             </div>
             
             <div class="login-footer">
@@ -63,66 +52,42 @@
         </div>
     </div>
 
-    <!-- 
-        STEP 1: Load the official Appwrite Web SDK from CDN.
-        This gives us the Client, Account, Databases, and Storage classes.
-        This is NOT a secret. It's just a library, like jQuery.
-    -->
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@16.0.2"></script>
-
-    <!-- STEP 2: Load our config (no secrets in here anymore!) -->
+    <!-- Scripts -->
     <script src="../config/config.js"></script>
-
-    <!-- STEP 3: Load our secure Appwrite module -->
-    <script src="../js/appwrite.js"></script>
-
     <script>
-        // Check if admin is already logged in.
-        // HOW IT WORKS: We call appwriteDB.getCurrentUser() which asks Appwrite
-        // "Hey, is there an active session cookie in this browser?"
-        // If yes, it returns the user object. If no, it returns null.
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                const user = await appwriteDB.getCurrentUser();
-                if (user) {
-                    // Already logged in! Redirect to dashboard.
+        // Check if already logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const session = localStorage.getItem('adminSession');
+            if (session) {
+                const sessionData = JSON.parse(session);
+                if (sessionData.expiry > Date.now()) {
                     window.location.href = 'dashboard.html';
+                    return;
+                } else {
+                    localStorage.removeItem('adminSession');
                 }
-            } catch (error) {
-                // 401 here is NORMAL — no active session yet, stay on login page.
             }
         });
 
-        // Handle login form submission
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
+        // Handle login form
+        document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
-
-            const email = document.getElementById('email').value;
+            
             const password = document.getElementById('password').value;
             const errorEl = document.getElementById('login-error');
-            const loginBtn = document.getElementById('login-btn');
-
-            errorEl.style.display = 'none';
-            loginBtn.disabled = true;
-            loginBtn.querySelector('span').textContent = 'Signing in...';
-
-            try {
-                // HOW IT WORKS:
-                // 1. This sends the email + password to Appwrite servers (over HTTPS).
-                // 2. Appwrite verifies the credentials against its user database.
-                // 3. If correct, Appwrite creates a session and sets a secure
-                //    'a_session_...' cookie in the browser automatically.
-                // 4. You never see or store the password — Appwrite handles everything.
-                await appwriteDB.login(email, password);
-
-                // Redirect to dashboard on successful login
+            
+            if (password === CONFIG.admin.password) {
+                // Create session
+                const session = {
+                    loggedIn: true,
+                    expiry: Date.now() + CONFIG.admin.sessionDuration
+                };
+                localStorage.setItem('adminSession', JSON.stringify(session));
+                
+                // Redirect to dashboard
                 window.location.href = 'dashboard.html';
-
-            } catch (error) {
-                // Login failed (wrong email/password or network error)
+            } else {
                 errorEl.style.display = 'block';
-                loginBtn.disabled = false;
-                loginBtn.querySelector('span').textContent = 'Login';
                 document.getElementById('password').value = '';
             }
         });

@@ -54,7 +54,7 @@
             </form>
             
             <div id="login-error" class="login-error" style="display: none;">
-                Incorrect email or password. Please try again.
+                Login failed.
             </div>
             
             <div class="login-footer">
@@ -89,7 +89,7 @@
                     window.location.href = 'dashboard.html';
                 }
             } catch (error) {
-                // Not logged in, stay on login page.
+                // 401 here is NORMAL — no active session yet, stay on login page.
             }
         });
 
